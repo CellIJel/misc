@@ -1,2 +1,2 @@
 # misc
-Websites made for small and niche purposes
+These are websites that was made for that "in the moment" moment.
