@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Favicon</title>
+    <link id="dynamic-favicon" rel="icon" href="">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #0f0f0f;
+        }
+        .container {
+            text-align: center;
+            background: #1b1b1b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"] {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Custom Favicon</h1>
+        <p>
+            Allows you to upload an image that will be used as the favicon 
+            for the site.<br>A favicon is a small icon that appears in the browser tab 
+            next to the site title, and it helps users to<br>easily identify and differentiate 
+            between websites in their bookmarks and tabs.
+        </p>
+        <input type="file" accept="image/*" onchange="uploadFavicon(event)">
+    </div>
+
+    <script>
+        function uploadFavicon(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const favicon = document.getElementById('dynamic-favicon');
+                    favicon.href = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
