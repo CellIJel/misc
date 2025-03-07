@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllable Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1b1b1b;
+            color: #fff;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .textbox-container, .counter-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        textarea {
+            width: 300px;
+            height: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .total-counter {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .line-counter {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="textbox-container">
+            <textarea id="textbox" placeholder="Type your text here..."></textarea>
+        </div>
+        <div class="total-counter">Total Syllables: <span id="syllableCount">0</span></div>
+        <div class="counter-container" id="lineCounters"></div>
+    </div>
+
+    <script>
+        function countSyllables(text) {
+            text = text.toLowerCase();
+            if (text.length === 0) return 0;
+
+            const words = text.split(/\s+/);
+            let syllableCount = 0;
+
+            words.forEach(word => {
+                word = word.replace(/[^a-z]/g, '');
+                if (word.length === 0) return;
+
+                word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+                word = word.replace(/^y/, '');
+                const syllables = word.match(/[aeiouy]{1,2}/g);
+                syllableCount += syllables ? syllables.length : 1;
+            });
+
+            return syllableCount;
+        }
+
+        function updateSyllableCounts() {
+            const text = document.getElementById('textbox').value;
+            const lines = text.split('\n');
+            let totalSyllables = 0;
+
+            const lineCounters = document.getElementById('lineCounters');
+            lineCounters.innerHTML = '';
+
+            lines.forEach((line, index) => {
+                const syllableCount = countSyllables(line);
+                totalSyllables += syllableCount;
+
+                const lineCounter = document.createElement('div');
+                lineCounter.className = 'line-counter';
+                lineCounter.innerText = `Line ${index + 1} Syllables: ${syllableCount}`;
+                lineCounters.appendChild(lineCounter);
+            });
+
+            document.getElementById('syllableCount').innerText = totalSyllables;
+        }
+
+        document.getElementById('textbox').addEventListener('input', updateSyllableCounts);
+    </script>
+</body>
+</html>
