@@ -4,7 +4,8 @@
   "description": "Websites made for small and niche purposes",
   "main": "updateIndex.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update": "node updateIndex.js"
   },
   "repository": {
     "type": "git",
@@ -16,9 +17,5 @@
   "bugs": {
     "url": "https://github.com/CellIJel/misc/issues"
   },
-  "homepage": "https://github.com/CellIJel/misc#readme",
-  "dependencies": {
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7"
-  }
+  "homepage": "https://github.com/CellIJel/misc#readme"
 }
