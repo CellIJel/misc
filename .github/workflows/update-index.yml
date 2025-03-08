@@ -31,7 +31,7 @@ jobs:
           git add .
           if ! git diff-index --quiet HEAD; then
             git commit -m 'Update index.html with new directory'
-            git push
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/CellIJel/misc.git
           else
             echo "No changes to commit"
           fi
