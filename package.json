@@ -1,0 +1,24 @@
+{
+  "name": "misc",
+  "version": "1.0.0",
+  "description": "Websites made for small and niche purposes",
+  "main": "updateIndex.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CellIJel/misc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CellIJel/misc/issues"
+  },
+  "homepage": "https://github.com/CellIJel/misc#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
