@@ -34,5 +34,6 @@ jobs:
             git push
           else
             echo "No changes to commit"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.UPDATE_INDEX }}
