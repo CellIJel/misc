@@ -2,44 +2,48 @@ name: Update index.html
 
 on:
   push:
-    paths:
-      - '**/'
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   update-index:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci || npm install
 
       - name: Run script to update index.html
         run: node updateIndex.js
 
-      - name: Commit changes if any
+      - name: Check for changes
+        id: git-check
         run: |
-          # Configure git user details
+          git add index.html
+          git status --porcelain
+          echo "changes=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+
+      - name: Commit and push if changed
+        if: steps.git-check.outputs.changes > 0
+        run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
-          # Set the remote URL for pushing with authentication
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/CellIJel/misc.git
-          
-          # Add, commit, and push changes
-          git add .
-          if ! git diff-index --quiet HEAD; then
-            git commit -m 'Update index.html with new directory'
-            git push origin HEAD
-          else
-            echo "No changes to commit"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git commit -m "Auto-update index.html with new directories"
+          git push
