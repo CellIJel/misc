@@ -19,7 +19,7 @@ const directories = fs.readdirSync(__dirname).filter(dir =>
 // Generate the new list items for each directory
 const newListItems = directories.map(dir => {
   const dirName = dir.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-  return `<li><a href="https://cellijel.github.io/GPTMade/${dir}/">${dir}</a></li>`;
+  return `<li><a href="https://cellijel.github.io/misc/${dir}/">${dirName}</a></li>`;
 }).join('\n  ');
 
 // Replace the old list items with the new ones within the <ol style="list-style-type: none;"> element, preserving the formatting
