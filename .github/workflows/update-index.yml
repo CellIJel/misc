@@ -26,12 +26,18 @@ jobs:
 
       - name: Commit changes if any
         run: |
+          # Configure git user details
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Set the remote URL for pushing with authentication
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/CellIJel/misc.git
+          
+          # Add, commit, and push changes
           git add .
           if ! git diff-index --quiet HEAD; then
             git commit -m 'Update index.html with new directory'
-            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/CellIJel/misc.git
+            git push origin HEAD
           else
             echo "No changes to commit"
           fi
