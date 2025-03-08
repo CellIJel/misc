@@ -36,4 +36,4 @@ jobs:
             echo "No changes to commit"
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.UPDATE_INDEX }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
