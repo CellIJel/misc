@@ -45,6 +45,26 @@ body {
     height: auto;
 }
 
+.code-selector {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.code-selector select {
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 6px;
+    background-color: #252525;
+    color: #e0e0e0;
+    border: 1px solid #404040;
+    cursor: pointer;
+}
+
+.code-selector select:focus {
+    outline: none;
+    border-color: #505050;
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 10px;

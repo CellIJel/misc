@@ -9,19 +9,39 @@
 </head>
 <body>
     <div class="container">
-        <div class="code-card">
-            <h2>Barcode</h2>
+        <div class="code-selector">
+            <select id="codeType">
+                <option value="barcode">Barcode</option>
+                <option value="qrcode">QR Code</option>
+            </select>
+        </div>
+
+        <div class="code-card" id="barcodeCard">
             <div class="code-image">
                 <img src="./images/barcode.gif" alt="Barcode" width="400" height="auto">
             </div>
         </div>
         
-        <div class="code-card">
-            <h2>QR Code</h2>
+        <div class="code-card" id="qrcodeCard">
             <div class="code-image">
                 <img src="./images/QRcode.png" alt="QR Code" width="400" height="auto">
             </div>
         </div>
     </div>
+
+    <script>
+        const selector = document.getElementById('codeType');
+        const barcodeCard = document.getElementById('barcodeCard');
+        const qrcodeCard = document.getElementById('qrcodeCard');
+
+        function updateDisplay() {
+            const selected = selector.value;
+            barcodeCard.style.display = selected === 'barcode' ? 'block' : 'none';
+            qrcodeCard.style.display = selected === 'qrcode' ? 'block' : 'none';
+        }
+
+        selector.addEventListener('change', updateDisplay);
+        updateDisplay(); // Initial display
+    </script>
 </body>
 </html>
