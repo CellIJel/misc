@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/CellIJel/cellijel.github.io/refs/heads/main/stylesheets/favi.ico" type="image/x-icon" />
+    <title>Current Time</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1b1b1b;
+            font-size: 4rem;
+        }
+        #time {
+            text-align: center;
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            color: #4c4c4c;
+        }
+    </style>
+</head>
+<body>
+    <div id="time"></div>
+
+    <script>
+        function updateTime() {
+            const timeElement = document.getElementById('time');
+            const now = new Date();
+            
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            // Convert to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // handle midnight (0 hours)
+            
+            // Pad hours with leading zero if needed
+            const formattedHours = hours.toString().padStart(2, '0');
+            
+            timeElement.textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
