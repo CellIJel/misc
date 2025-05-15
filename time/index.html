@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://raw.githubusercontent.com/CellIJel/cellijel.github.io/refs/heads/main/stylesheets/favi.ico" type="image/x-icon" />
     <title>Current Time</title>
     <style>
         body {
@@ -15,15 +14,20 @@
             font-family: Arial, sans-serif;
             background-color: #1b1b1b;
             font-size: 4rem;
-            cursor: none;
+            color: white;
+            transition: cursor 0.3s;
         }
         #time {
             text-align: center;
-            background-color: #2c2c2c;
+            background-color: rgba(255,255,255,0.1);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            cursor: pointer;
             color: #4c4c4c;
+        }
+        .fullscreen-active {
+            cursor: none;
         }
     </style>
 </head>
@@ -53,6 +57,60 @@
         // Update time immediately and then every second
         updateTime();
         setInterval(updateTime, 1000);
+
+        // Setup fullscreen functionality
+        const timeElement = document.getElementById('time');
+        const bodyElement = document.body;
+
+        timeElement.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Safari
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE11
+                    document.documentElement.msRequestFullscreen();
+                }
+                bodyElement.classList.add('fullscreen-active');
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { // Safari
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE11
+                    document.msExitFullscreen();
+                }
+                bodyElement.classList.remove('fullscreen-active');
+            }
+        });
+
+        // Handle fullscreen change
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                bodyElement.classList.add('fullscreen-active');
+            } else {
+                bodyElement.classList.remove('fullscreen-active');
+            }
+        });
+
+        // Also handle prefixed fullscreen change events for broader browser support
+        document.addEventListener('webkitfullscreenchange', () => {
+            if (document.webkitFullscreenElement) {
+                bodyElement.classList.add('fullscreen-active');
+            } else {
+                bodyElement.classList.remove('fullscreen-active');
+            }
+        });
+
+        document.addEventListener('msfullscreenchange', () => {
+            if (document.msFullscreenElement) {
+                bodyElement.classList.add('fullscreen-active');
+            } else {
+                bodyElement.classList.remove('fullscreen-active');
+            }
+        });
     </script>
 </body>
 </html>
