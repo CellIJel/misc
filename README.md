@@ -5,6 +5,7 @@ These are websites that was made for that "in the moment" moment.
 [favi](#favi)
 [definition](#definition)
 [confirm](#confirm)
+[time](#time)
 
 # syllable
 Counts the amount of syllables in total or in individual lines
@@ -29,3 +30,9 @@ Takes and displays images that are in files
 [Skips](#misc)
 
 ![Screenshot from 2025-03-13 23-25-09](https://github.com/user-attachments/assets/a81e321d-cbfd-4011-adb3-cdb3a295152b)
+
+# time
+Shows your current time in a dark theme to slow burn in (click the box to go fullscreen + hide cursor)
+[Skips](#misc)
+
+![image](https://github.com/user-attachments/assets/ec3354a8-3f58-4967-a517-181fb9320284)
