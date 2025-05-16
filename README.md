@@ -32,7 +32,7 @@ Takes and displays images that are in files
 ![image](https://github.com/user-attachments/assets/359db196-9055-4b41-9685-fb9d29a5814e)
 
 # time
-Shows your current time in a dark theme to slow burn in (click the box to go fullscreen + hide cursor)
+Shows your current time in a dark theme to slow burn in (click the box to go fullscreen)
 [Skips](#misc)
 
 ![image](https://github.com/user-attachments/assets/ec3354a8-3f58-4967-a517-181fb9320284)
