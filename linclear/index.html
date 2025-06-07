@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Cleaner - Remove Tracking Parameters</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            background: rgba(30, 30, 45, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #ec4899, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a1a1aa;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e4e4e7;
+            font-weight: 600;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            backdrop-filter: blur(10px);
+        }
+
+        input[type="url"]:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 
+                0 0 0 3px rgba(124, 58, 237, 0.2),
+                0 0 20px rgba(124, 58, 237, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        input[type="url"]::placeholder {
+            color: #71717a;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clean-btn {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clean-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .clean-btn:hover::before {
+            left: 100%;
+        }
+
+        .clean-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 10px 25px rgba(124, 58, 237, 0.4),
+                0 0 40px rgba(236, 72, 153, 0.3);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #059669, #0891b2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .copy-btn:hover::before {
+            left: 100%;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #047857, #0e7490);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 20px rgba(5, 150, 105, 0.4),
+                0 0 30px rgba(8, 145, 178, 0.3);
+        }
+
+        .copy-btn:disabled {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .copy-btn:disabled::before {
+            display: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-left: 4px solid #10b981;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .result h3 {
+            color: #34d399;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .result-url {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            word-break: break-all;
+            margin-bottom: 15px;
+            color: #e4e4e7;
+            backdrop-filter: blur(5px);
+        }
+
+        .removed-params {
+            background: rgba(245, 158, 11, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-top: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .removed-params h4 {
+            color: #fbbf24;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .no-params-info {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            margin-top: 10px;
+            border-left: 4px solid #3b82f6;
+            backdrop-filter: blur(10px);
+        }
+
+        .no-params-info h4 {
+            color: #60a5fa;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .no-params-info p {
+            color: #93c5fd;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .param-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .info {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-left: 4px solid #3b82f6;
+            backdrop-filter: blur(10px);
+        }
+
+        .info h3 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .info ul {
+            color: #d1d5db;
+            margin-left: 20px;
+        }
+
+        .info li {
+            margin-bottom: 5px;
+        }
+
+        .info strong {
+            color: #fbbf24;
+        }
+
+        a {
+    background: linear-gradient(152deg, #7c3aed, #ec4899, #f59e0b);
+    text-shadow: 
+        0 0 20px rgba(236, 72, 153, 0.8),
+        0 0 40px rgba(124, 58, 237, 0.6),
+        0 0 60px rgba(245, 158, 11, 0.4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    filter: brightness(1.2) saturate(1.3);
+}
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Link Cleaner</h1>
+        <p class="subtitle">Remove tracking parameters from sharing links</p>
+        
+        <div class="input-group">
+            <label for="urlInput">Paste your link here:</label>
+            <input type="url" id="urlInput" placeholder="https://open.spotify.com/track/example?si=tracking_code" />
+        </div>
+        
+        <div class="button-group">
+            <button class="clean-btn" onclick="cleanUrl()">🧹 Clean Link</button>
+            <button class="copy-btn" id="copyBtn" onclick="copyResult()" disabled>📋 Copy Clean Link</button>
+        </div>
+        
+        <div class="result" id="result">
+            <h3>✅ Cleaned Link:</h3>
+            <div class="result-url" id="cleanedUrl"></div>
+            <div class="removed-params" id="removedParams" style="display: none;">
+                <h4>🗑️ Removed tracking parameters:</h4>
+                <div id="paramTags"></div>
+            </div>
+            <div class="no-params-info" id="noParamsInfo" style="display: none;">
+                <h4>ℹ️ No tracking parameters found</h4>
+                <p>This link appears to be already clean or doesn't contain common tracking parameters.</p>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>ℹ️ What tracking parameters are removed?</h3>
+            <ul>
+                <li><strong>Spotify:</strong> si, context, dl_branch_used</li>
+                <li><strong>YouTube:</strong> si, feature, t (timestamps preserved)</li>
+                <li><strong>Facebook/Meta:</strong> fbclid, fb_action_ids, fb_source</li>
+                <li><strong>Google:</strong> utm_*, gclid, gclsrc</li>
+                <li><strong>Twitter/X:</strong> s, t, ref_src, ref_url</li>
+                <li><strong>Amazon:</strong> ref, tag, linkCode, camp, creative</li>
+                <li><strong>TikTok:</strong> is_from_webapp, sender_device</li>
+                <li><strong>LinkedIn:</strong> trackingId, refId, trk</li>
+                <li><strong>General:</strong> referrer, source, campaign tracking</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive list of tracking parameters to remove
+        const trackingParams = [
+            // Spotify
+            'si', 'context', 'dl_branch_used',
+            // YouTube (preserve 't' for timestamps)
+            'feature', 'ab_channel', 'kw', 'list',
+            // Facebook/Meta
+            'fbclid', 'fb_action_ids', 'fb_source', 'fb_ref',
+            // Google Analytics & Ads
+            'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+            'gclid', 'gclsrc', 'dclid', 'gbraid', 'wbraid',
+            // Twitter/X
+            's', 'ref_src', 'ref_url',
+            // Amazon
+            'ref', 'tag', 'linkCode', 'camp', 'creative', 'creativeASIN', 'linkId',
+            // TikTok
+            'is_from_webapp', 'sender_device', 'sender_web_id',
+            // LinkedIn
+            'trackingId', 'refId', 'trk', 'li_source', 'li_medium',
+            // Instagram
+            'igshid', 'ig_rid',
+            // Pinterest
+            'pinterest_share_id',
+            // Reddit
+            'ref_source',
+            // General tracking
+            'referrer', 'source', 'medium', 'campaign', 'content', 'term',
+            // Microsoft
+            'msclkid',
+            // Other common tracking
+            'mc_cid', 'mc_eid', '_ga', '_gl', 'hsCtaTracking'
+        ];
+
+        function cleanUrl() {
+            const input = document.getElementById('urlInput');
+            const url = input.value.trim();
+            
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            try {
+                const urlObj = new URL(url);
+                const originalParams = Array.from(urlObj.searchParams.keys());
+                const removedParams = [];
+                
+                // Remove tracking parameters
+                trackingParams.forEach(param => {
+                    if (urlObj.searchParams.has(param)) {
+                        removedParams.push(param);
+                        urlObj.searchParams.delete(param);
+                    }
+                });
+                
+                // Special handling for YouTube timestamps - preserve 't' parameter
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    const originalUrl = new URL(url);
+                    if (originalUrl.searchParams.has('t')) {
+                        urlObj.searchParams.set('t', originalUrl.searchParams.get('t'));
+                        // Remove 't' from removed params if it was added
+                        const tIndex = removedParams.indexOf('t');
+                        if (tIndex > -1) {
+                            removedParams.splice(tIndex, 1);
+                        }
+                    }
+                }
+                
+                const cleanedUrl = urlObj.toString();
+                
+                // Display results
+                document.getElementById('cleanedUrl').innerHTML = `<a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer">${cleanedUrl}</a>`;
+                document.getElementById('copyBtn').disabled = false;
+                document.getElementById('result').classList.add('show');
+                
+                // Show removed parameters or info message
+                if (removedParams.length > 0) {
+                    const paramTags = removedParams.map(param => 
+                        `<span class="param-tag">${param}</span>`
+                    ).join('');
+                    document.getElementById('paramTags').innerHTML = paramTags;
+                    document.getElementById('removedParams').style.display = 'block';
+                    document.getElementById('noParamsInfo').style.display = 'none';
+                } else {
+                    document.getElementById('removedParams').style.display = 'none';
+                    document.getElementById('noParamsInfo').style.display = 'block';
+                }
+                
+            } catch (error) {
+                alert('Please enter a valid URL');
+            }
+        }
+        
+        function copyResult() {
+            const cleanedUrlElement = document.getElementById('cleanedUrl').querySelector('a');
+            const cleanedUrl = cleanedUrlElement ? cleanedUrlElement.href : '';
+            navigator.clipboard.writeText(cleanedUrl).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✅ Copied!';
+                copyBtn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.style.background = 'linear-gradient(135deg, #059669, #0891b2)';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = cleanedUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                alert('Link copied to clipboard!');
+            });
+        }
+        
+        // Allow cleaning with Enter key
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                cleanUrl();
+            }
+        });
+        
+        // Auto-focus input on page load
+        document.getElementById('urlInput').focus();
+    </script>
+</body>
+</html>
