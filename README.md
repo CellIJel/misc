@@ -6,6 +6,8 @@ These are websites that was made for that "in the moment" moment.
 [definition](#definition)
 [confirm](#confirm)
 [time](#time)
+[text](#text)
+[linkclear](#linkclear)
 
 # syllable
 Counts the amount of syllables in total or in individual lines
@@ -36,3 +38,15 @@ Shows your current time in a dark theme to slow burn in (click the box to go ful
 [Skips](#misc)
 
 ![image](https://github.com/user-attachments/assets/ec3354a8-3f58-4967-a517-181fb9320284)
+
+# text
+Make a temporary page of just some text, good for minimalism.
+[Skips](#misc)
+
+image here
+
+# linkclear
+Paste a link and clean the tracking parameters.
+[Skips](#misc)
+
+image here
