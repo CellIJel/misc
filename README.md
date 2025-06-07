@@ -43,10 +43,10 @@ Shows your current time in a dark theme to slow burn in (click the box to go ful
 Make a temporary page of just some text, good for minimalism.
 [Skips](#misc)
 
-image here
+![image](https://github.com/user-attachments/assets/ee9ea8ec-f89c-4278-82d2-3aa089223575)
 
 # linkclear
 Paste a link and clean the tracking parameters.
 [Skips](#misc)
 
-image here
+![image](https://github.com/user-attachments/assets/5bec4baf-8e9c-49dd-a41a-f7bab016295d)
