@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="https://raw.githubusercontent.com/CellIJel/cellijel.github.io/refs/heads/main/stylesheets/favi.ico" type="image/x-icon">
+    <link rel="icon"
+        href="https://raw.githubusercontent.com/CellIJel/cellijel.github.io/refs/heads/main/stylesheets/favi.ico"
+        type="image/x-icon">
     <title>Text Webpage Creator</title>
     <style>
         body {
@@ -16,12 +19,14 @@
             justify-content: center;
             font-family: sans-serif;
         }
+
         .container {
             background: #232323;
             padding: 2em;
             border-radius: 10px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
         }
+
         textarea {
             width: 350px;
             height: 100px;
@@ -31,6 +36,7 @@
             margin-bottom: 1em;
             font-size: 1em;
         }
+
         button {
             background: #333;
             color: #fff;
@@ -41,11 +47,13 @@
             cursor: pointer;
             transition: background 0.2s;
         }
+
         button:hover {
             background: #444;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Create a Text Webpage</h2>
@@ -55,7 +63,7 @@
         </form>
     </div>
     <script>
-        document.getElementById('text-form').addEventListener('submit', function(e) {
+        document.getElementById('text-form').addEventListener('submit', function (e) {
             e.preventDefault();
             const text = document.getElementById('userText').value;
             const html = `
@@ -82,10 +90,11 @@
     <div>${text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>")}</div>
 </body>
 </html>`;
-            const blob = new Blob([html], {type: 'text/html'});
+            const blob = new Blob([html], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             window.open(url, '_blank');
         });
     </script>
 </body>
+
 </html>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syllable Counter</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/CellIJel/cellijel.github.io/refs/heads/main/stylesheets/favi.ico" type="image/x-icon">
+    <link rel="icon"
+        href="https://raw.githubusercontent.com/CellIJel/cellijel.github.io/refs/heads/main/stylesheets/favi.ico"
+        type="image/x-icon">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,6 +19,7 @@
             background-color: #1b1b1b;
             color: #fff;
         }
+
         .container {
             display: flex;
             width: 100%;
@@ -23,27 +27,33 @@
             justify-content: space-evenly;
             align-items: center;
         }
-        .textbox-container, .counter-container {
+
+        .textbox-container,
+        .counter-container {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         textarea {
             width: 300px;
             height: 300px;
             padding: 10px;
             font-size: 16px;
         }
+
         .total-counter {
             font-size: 20px;
             margin-bottom: 20px;
         }
+
         .line-counter {
             font-size: 18px;
             margin-bottom: 5px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="textbox-container">
@@ -98,4 +108,5 @@
         document.getElementById('textbox').addEventListener('input', updateSyllableCounts);
     </script>
 </body>
+
 </html>
