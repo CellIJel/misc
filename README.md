@@ -49,4 +49,4 @@ Make a temporary page of just some text, good for minimalism.
 Paste a link and clean the tracking parameters.
 [Skips](#misc)
 
-![image](https://github.com/user-attachments/assets/5bec4baf-8e9c-49dd-a41a-f7bab016295d)
+![image](https://github.com/user-attachments/assets/6401e074-7181-4ccb-ac2d-07724f62d9e4)
